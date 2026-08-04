@@ -156,9 +156,31 @@ class agentController extends Controller
         return response()->json($transactions);
     }
 
-    public function confirmer_remboursement(Request $request, int $id): JsonResponse
+    public function transactions_by_user(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $id = $user->id;
+        $transactions = Transaction::query()->where('id_user', $id)->with(['agents'])->get();
+
+
+        return response()->json($transactions);
+    }
+    
+    public function transactions_specifiques(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $id = $user->id;
+        $id = $request->input('id');
+        $transactions = Transaction::query()->where('id_agent', $id)->where('id', $id)->with(['users'])->get();
+
+
+        return response()->json($transactions);
+    }
+
+    public function confirmer_remboursement(Request $request): JsonResponse
     {
 
+        $id = $request->input('id');
         $transaction = Transaction::query()->findOrFail($id);
         $transaction->update(['statut' => 'remboursée']);
 

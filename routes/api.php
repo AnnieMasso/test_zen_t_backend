@@ -16,6 +16,8 @@ Route::prefix('auth/users')->group(function (): void {
         Route::put('/profil', [userController::class, 'updateNom']);
         Route::post('/store_transaction', [transactionController::class, 'store']);
         Route::delete('/logout', [userController::class, 'deconnexion']);
+        Route::get('/transaction_specifique', [AgentController::class, 'transactions_specifiques']);
+        Route::get('/transactions', [AgentController::class, 'transactions_by_user']);
         Route::put('/annuler_transaction', [agentController::class, 'annuler_transaction']);
         // Route::post('/')
     });
@@ -34,6 +36,7 @@ Route::prefix('auth/agents')->group(function (): void {
         Route::get('/dashboard', [agentController::class, 'dashboard']);
         Route::put('/annuler_transaction', [agentController::class, 'annuler_transaction']);
         Route::put('/valider_transaction', [agentController::class, 'valider_transaction']);
+        Route::get('/transaction_specifique', [AgentController::class, 'transactions_specifiques']);
         Route::put('/confirmer_remboursement', [agentController::class, 'confirmer_remboursement']);
         Route::get('/transactions', [AgentController::class, 'transactions']);
     });
